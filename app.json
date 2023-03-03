@@ -1,0 +1,23 @@
+{
+  "name": "TipSight",
+  "version": "1.0.0",
+  "icon": "./src/assets/images/icon.png",
+  "splash": {
+    "image": "./src/assets/images/icon.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#FFFFFF"
+  },
+  "ios": {
+    "supportsTablet": true
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./src/assets/images/icon.png",
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "expo": {
+    "name": "tip sight",
+    "slug": "TipSight"
+  }
+}
