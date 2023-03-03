@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Video } from "react-native";
-import { Asset } from "expo-asset";
-import { AppLoading } from "expo";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Video } from "expo-av";
+
 
 const SplashScreen = ({ navigation }) => {
-  const [isReady, setIsReady] = useState(false);
-  
-  useEffect(() => {
-    const loadAssetsAsync = async () => {
-      await Asset.loadAsync(require("./assets/splash.mp4"));
-    };
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
-    loadAssetsAsync().then(() => setIsReady(true));
-  }, []);
-
-  if (!isReady) {
-    return <AppLoading />;
-  }
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
 
   const handlePress = () => {
     navigation.navigate("Home");
@@ -25,13 +17,13 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Video
-        source={require("./assets/TipSight.mp4")}
-        rate={1.0}
-        isMuted={true}
-        resizeMode="cover"
-        shouldPlay={true}
-        isLooping={false}
         style={styles.video}
+        source={require("../assets/images/TipSight.mp4")}
+        useNativeControls
+        resizeMode="cover"
+        isLooping
+        shouldPlay
+        onReadyForDisplay={handleVideoLoad}
       />
       <TouchableOpacity style={styles.button} onPress={handlePress}>
         <Text style={styles.buttonText}>Get Started</Text>
@@ -43,26 +35,27 @@ const SplashScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    flexDirection: "column",
+    backgroundColor: "black",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   video: {
     flex: 1,
-  },
-  logo: {
-    fontSize: 48,
-    fontWeight: "bold",
-    marginBottom: 64,
+    position: "absolute",
+    top: 0,
+    height: "50%",
+    width: "90%"
   },
   button: {
-    backgroundColor: "#0084ff",
+    backgroundColor: "#fff",
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 8,
+    marginBottom: 200
   },
   buttonText: {
-    color: "#fff",
+    color: "black",
     fontSize: 18,
   },
 });
