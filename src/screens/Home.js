@@ -1,13 +1,15 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { StyleSheet, Text, Pressable, View } from 'react-native';
 import TakePhoto from '../components/TakePhoto';
 import { ImageContext } from "../contexts/ImageContext";
 import * as FileSystem from "expo-file-system";
+import PageWrapper from './PageWrapper';
+import { useNavigation } from "@react-navigation/native";
 
-export const HomeScreen = ({ navigation }) => {
+export const HomeScreen = () => {
   const { setImageData } = useContext(ImageContext);
-  const [capturedImage, setCapturedImage] = useState(null);
   const cameraRef = useRef(null);
+  const navigation = useNavigation();
   
   const handleCapture = async () => {
     if (cameraRef.current) {
@@ -52,6 +54,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
+  buttonLabel: {
+    //color: "#fff",
+    fontSize: 16,
+  },
   captureContainer: {
     position: "absolute",
     bottom: 0,
@@ -63,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default PageWrapper(HomeScreen);

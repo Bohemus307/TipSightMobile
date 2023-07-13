@@ -1,33 +1,47 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import LoadingOverlay from "../components/LoadingOverlay";
 import { useContext } from "react";
 import { ImageContext } from "../contexts/ImageContext";
+import PageWrapper from "./PageWrapper";
+import { useNavigation } from "@react-navigation/native";
+import LoadingOverlay from "../components/LoadingOverlay";
 
-const PreviewPhoto = ({ navigation }) => {
+const PreviewPhoto = () => {
   const { imageData } = useContext(ImageContext);
   const [isLoading, setIsLoading] = useState(false);
-  
+  const navigation = useNavigation();
+
   const handleSave = async () => {
     try {
-        // Send image to API for processing
-        sendPhotoToAPI();
+      setIsLoading(true);
+
+      const formData = new FormData();
+      formData.append("image", {
+        base64: imageData.base64Image,
+        type: "image/jpeg",
+        name: "image.jpg",
+      });
+       // Send the photo to the API and extract the text and handwriting
+       const response = await fetch("https://ed07353ce622.ngrok.app/single", {
+         method: "POST",
+         headers: { "Content-Type": "multipart/form-data" },
+         body: formData,
+       });
+       if (!response.ok) {
+         throw new Error("Network response was not ok");
+        }
+      const data = await response.json();
+      console.log('DATA', data)
+       // Do something with the data
+       setIsLoading(false);
+       // Navigate to the success screen
+       navigation.navigate("Success", {
+         extractedText: data,
+       });
     } catch (error) {
       throw new Error(`error in sendImage ${error}`)
     }
   };
-
-  const sendPhotoToAPI = async () => {
-    setIsLoading(true);
-    // Send the photo to the API and extract the text and handwriting
-    // Here we would make an API call using the `photo` state variable
-    console.log("SEND IT!!!!!!");
-    setIsLoading(false);
-    // Navigate to the success screen
-    navigation.navigate("Success", { extractedText: 'Hello World' });
-  };
-
-
 
   return (
     <View style={styles.container}>
@@ -35,7 +49,7 @@ const PreviewPhoto = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Save Image</Text>
       </TouchableOpacity>
-      {/* <LoadingOverlay isVisible={isLoading} /> */}
+      <LoadingOverlay isVisible={isLoading} />
     </View>
   );
 };
@@ -70,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PreviewPhoto;
+export default PageWrapper(PreviewPhoto);

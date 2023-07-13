@@ -1,10 +1,11 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View, Text } from "react-native";
 
 const LoadingOverlay = ({ isVisible }) => {
   return (
     <View style={[styles.overlay, isVisible ? styles.visible : styles.hidden]}>
       <ActivityIndicator size="large" color="#0000ff" />
+      <Text style={styles.loaderText}>Loading...</Text>
     </View>
   );
 };
@@ -21,6 +22,10 @@ const styles = StyleSheet.create({
   },
   hidden: {
     zIndex: -999,
+  },
+  loaderText: {
+    color: "#0000ff",
+    marginTop: 10,
   },
 });
 

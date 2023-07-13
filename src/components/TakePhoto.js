@@ -18,7 +18,9 @@ const TakePhoto = forwardRef((props, ref) => {
         <Text style={{ textAlign: "center" }}>
           We need your permission to show the camera
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <TouchableOpacity style={styles.button} onPress={requestPermission}>
+          <Text style={styles.text}>grant permission</Text>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Video } from "expo-av";
 
@@ -11,7 +11,7 @@ const SplashScreen = ({ navigation }) => {
   };
 
   const handlePress = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Take Picture");
   };
 
   return (
